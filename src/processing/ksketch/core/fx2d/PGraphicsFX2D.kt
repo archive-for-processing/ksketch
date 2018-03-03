@@ -35,6 +35,8 @@ import kotlin.properties.Delegates
 import kotlin.math.tan
 
 import processing.ksketch.core.*
+import kotlin.math.max
+import kotlin.math.min
 
 class PGraphicsFX2D(val w: Int, val h: Int, val smooth: Int = 0) : IPGraphics {
 
@@ -93,14 +95,16 @@ class PGraphicsFX2D(val w: Int, val h: Int, val smooth: Int = 0) : IPGraphics {
 	var strokeColor = PColorHelper()
 	override var stroke: PColor by strokeColor.delegate {
 		gc.stroke = Color(
-			fillColor.r.toDouble(),
-			fillColor.g.toDouble(),
-			fillColor.b.toDouble(),
-			fillColor.a.toDouble()
+			strokeColor.r.toDouble(),
+			strokeColor.g.toDouble(),
+			strokeColor.b.toDouble(),
+			strokeColor.a.toDouble()
 		)
 	}
 	override var strokeWeight = 1f
 		set(value) {
+			if (strokeWeight == 0f)
+				doStroke = false
 			gc.lineWidth = value.toDouble()
 			field = value
 		}
@@ -184,6 +188,39 @@ class PGraphicsFX2D(val w: Int, val h: Int, val smooth: Int = 0) : IPGraphics {
 	}
 
 	override fun rect(x1: Float, y1: Float, x2: Float, y2: Float) {
+		var a = x1; var b = y1; var c = x2; var d = y2
+		when (rectMode) {
+			CORNER -> {
+				c += a
+				d += b
+			}
+			RADIUS -> {
+				val hr = c
+				val vr = d
+				c = a + hr
+				d = b + vr
+				a -= hr
+				b -= vr
+			}
+			CENTER -> {
+				val hr = c / 2f
+				val vr = d / 2f
+				c = a + hr
+				d = b + vr
+				a -= hr
+				b -= vr
+			}
+		}
+
+		a = min(a, c)
+		c = max(a, c)
+		b = min(b, d)
+		d = max(b, d)
+
+		rectImpl(a, b, c, d)
+	}
+
+	internal fun rectImpl(x1: Float, y1: Float, x2: Float, y2: Float) {
 		val x = x1.toDouble(); val y = y1.toDouble()
 		val w = (x2-x1).toDouble(); val h = (y2-y1).toDouble()
 

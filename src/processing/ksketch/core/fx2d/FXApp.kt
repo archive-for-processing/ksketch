@@ -56,8 +56,10 @@ class FXApp : Application() {
 			primaryStage.show()
 
 			outer.drawTimer = object : AnimationTimer() {
-				override fun handle(now: Long) =
+				override fun handle(now: Long) {
+					outer.resetMatrix()
 					outer.drawFunc(outer)
+				}
 			}
 			outer.drawTimer.start()
 
