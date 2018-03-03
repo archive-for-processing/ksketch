@@ -6,3 +6,6 @@ fun lerp(start: Float, stop: Float, amt: Float) = start + (stop-start) * amt
 fun maxl(vararg list: Int): Int {
 	return list.max() ?: 0
 }
+
+val Float.radToDeg get() = this * RAD_TO_DEG
+val Float.degToRad get() = this * DEG_TO_RAD
