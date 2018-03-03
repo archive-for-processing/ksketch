@@ -75,6 +75,7 @@ interfaces are all together in `Interfaces.kt`
 **TODO**
 
 The following functions are currently unsupported but will be implemented later:
+ * Everything except setting the background
  * GL renderer
  * HSB color mode / custom color ranges
  * Objects (PVector/PShape/PMatrix)
