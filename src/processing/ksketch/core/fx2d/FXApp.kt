@@ -61,6 +61,7 @@ class FXApp : Application() {
 			}
 			outer.drawTimer.start()
 
+			outer.setupFunc?.invoke(outer)
 			outer.onStart()
 		} catch (e: Exception) {
 			outer.onError(e)

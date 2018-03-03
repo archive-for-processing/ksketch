@@ -88,12 +88,55 @@ interface IPGraphicsEnv {
 
 interface IPGraphics : IPGraphicsEnv, IPGraphicsContext {
 
+	var setupFunc: (IPGraphics.() -> Unit)?
 	var drawFunc: IPGraphics.() -> Unit
 
 	//var shader: PShader
 
 	fun paintBackground()
 	fun clear()
+
+	fun point(x: Float, y: Float)
+	fun line(x1: Float, y1: Float, x2: Float, y2: Float)
+
+	fun rect(x1: Float, y1: Float, x2: Float, y2: Float)
+	fun ellipse(x: Float, y: Float, w: Float, h: Float)
+	fun arc(x: Float, y: Float, w: Float, h: Float, start: Float, stop: Float, mode: Int)
+
+	// Matrix stack
+
+	fun pushMatrix()
+	fun popMatrix()
+
+	// Matrix transforms
+
+	fun translate(x: Float, y: Float)
+
+	fun rotate(angle: Float)
+
+	fun scale(s: Float)
+	fun scale(sx: Float, sy: Float)
+
+	fun shearX(angle: Float)
+	fun shearY(angle: Float)
+
+	// Matrix more
+
+	fun resetMatrix()
+
+	fun applyMatrix(
+		n00: Float, n01: Float, n02: Float,
+		n10: Float, n11: Float, n12: Float
+	)
+
+	fun getMatrix(target: PMatrix2D): PMatrix2D
+	fun setMatrix(source: PMatrix2D)
+
+	// Screen and model transforms
+
+	fun screenX(x: Float, y: Float): Float
+	fun screenY(x: Float, y: Float): Float
+
 
 	//fun beginShape()
 	//fun beginShape(kind: Int)

@@ -14,22 +14,23 @@ Also, everything declared deprecated in Processing is dropped for simplicity.
 
 Define KSketches with the `ksketch` method:
 
-```
+```kotlin
 val mySketch = ksketch {
-	setup {
+	settings {
 		renderer = PGraphicsFX2D(200, 200)
 	}
+	setup {}
 	draw {}
 }
 ```
 
-The `setup{}` lambda and `renderer` field must be defined.
+`settings{}` and `renderer` are required.
 
 KSketches won't take control of your whole program so they can be started
 and stopped. If `stop()` is never called and the end of `main()` is reached,
 Java stays open until you close the window.
 
-```
+```kotlin
 fun main(args: Array<String>) {
 	mySketch.start()
 	println("Sketch is running in the background")
@@ -41,7 +42,7 @@ fun main(args: Array<String>) {
 You can also use the blocking `run()` function.
 `milliseconds` is optional and stops the sketch automatically.
 
-```
+```kotlin
 fun main(args: Array<String>) {
 	mySketch.run(milliseconds = 5000)
 	println("Sketch just finished running")

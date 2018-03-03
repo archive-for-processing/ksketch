@@ -5,7 +5,7 @@ import processing.ksketch.core.fx2d.PGraphicsFX2D
 import processing.ksketch.core.ksketch
 
 val sketch = ksketch {
-	setup {
+	settings {
 		renderer = PGraphicsFX2D(200, 200)
 	}
 
