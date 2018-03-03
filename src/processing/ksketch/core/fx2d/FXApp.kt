@@ -24,6 +24,7 @@ import javafx.animation.AnimationTimer
 import javafx.application.Application
 import javafx.scene.Group
 import javafx.scene.Scene
+import javafx.scene.SceneAntialiasing
 import javafx.scene.canvas.Canvas
 import javafx.stage.Stage
 
@@ -40,10 +41,18 @@ class FXApp : Application() {
 			instance = this
 
 			val root = Group()
-			val canvas = Canvas(outer.w.toDouble(), outer.h.toDouble())
+			val w = outer.w.toDouble()
+			val h = outer.h.toDouble()
+			val canvas = Canvas(w, h)
 			outer.gc = canvas.graphicsContext2D
 			root.children.add(canvas)
-			primaryStage.scene = Scene(root)
+
+			val smooth = when(outer.smooth) {
+				0 -> SceneAntialiasing.DISABLED
+				else -> SceneAntialiasing.BALANCED
+			}
+
+			primaryStage.scene = Scene(root, w, h, true, smooth)
 			primaryStage.show()
 
 			outer.drawTimer = object : AnimationTimer() {
