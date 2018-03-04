@@ -33,10 +33,10 @@ import javafx.scene.transform.Affine
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.properties.Delegates
 import kotlin.math.tan
-
-import processing.ksketch.core.*
 import kotlin.math.max
 import kotlin.math.min
+
+import processing.ksketch.core.*
 
 class FX2D(width: Int, height: Int, val smooth: Int = 0) : IPGraphics {
 
