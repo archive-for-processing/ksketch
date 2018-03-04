@@ -15,7 +15,6 @@ internal val chp01_05_vector_magnitude get() = ksketch {
 
 	draw {
 		background = color(255f)
-		paintBackground()
 
 		val w = width.toFloat()
 		val h = height.toFloat()

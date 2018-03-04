@@ -15,7 +15,6 @@ val sketch = ksketch {
 	draw {
 		i += 0.01f
 		background = color((sin(i) + 1) / 2)
-		paintBackground()
 
 		translate(100f, 100f)
 		rotate(i)

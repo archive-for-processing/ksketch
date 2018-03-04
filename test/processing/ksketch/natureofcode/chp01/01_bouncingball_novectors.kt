@@ -21,7 +21,6 @@ internal val chp01_01_bouncingball_novectors get() = ksketch {
 
 	draw {
 		background = color(1f)
-		paintBackground()
 
 		// Add the current speed to the position
 		x += xspeed

@@ -15,7 +15,6 @@ internal val chp01_03_vector_subtraction get() = ksketch {
 
 	draw {
 		background = color(255f)
-		paintBackground()
 
 		val w = width.toFloat()
 		val h = height.toFloat()

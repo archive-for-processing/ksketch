@@ -98,7 +98,6 @@ interface IPGraphics : IPGraphicsEnv, IPGraphicsContext, IPImage {
 
 	//var shader: PShader
 
-	fun paintBackground()
 	fun clear()
 
 	fun point(x: Float, y: Float)

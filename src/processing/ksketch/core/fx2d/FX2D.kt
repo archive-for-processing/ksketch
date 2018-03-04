@@ -169,7 +169,9 @@ class FX2D(width: Int, height: Int, val smooth: Int = 0) : IPGraphics {
 	// Background
 
 	var backgroundColor = PColorHelper()
-	override var background: PColor by backgroundColor.delegate()
+	override var background: PColor by backgroundColor.delegate {
+		paintBackground()
+	}
 
 	// Blend Mode
 
@@ -189,7 +191,7 @@ class FX2D(width: Int, height: Int, val smooth: Int = 0) : IPGraphics {
 		gc.restore()
 	}
 
-	override fun paintBackground() {
+	internal fun paintBackground() {
 		gc.save()
 		gc.transform = Affine()
 
