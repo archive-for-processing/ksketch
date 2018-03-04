@@ -17,7 +17,7 @@ Define KSketches with the `ksketch` method:
 ```kotlin
 val mySketch = ksketch {
 	settings {
-		renderer = PGraphicsFX2D(200, 200)
+		renderer = FX2D(200, 200)
 	}
 	setup {}
 	draw {}

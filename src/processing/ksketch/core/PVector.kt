@@ -89,10 +89,13 @@ data class PVector(var x: Float = 0f, var y: Float = 0f, var z: Float = 0f) {
 		return x * x + y * y + z * z
 	}
 
-	infix fun add(v: PVector) = plus(v)
+	infix fun add(v: PVector) = plusAssign(v)
 
 	operator fun plus(v: PVector) =
-		this.apply { x += v.x; y += v.y; z += v.z }
+		PVector( x + v.x, y + v.y, z + v.z)
+
+	operator fun plusAssign(v: PVector)
+		{ x += v.x; y += v.y; z += v.z }
 
 	fun add(x: Float, y: Float) =
 		this.apply { this.x += x; this.y += y }
@@ -100,24 +103,33 @@ data class PVector(var x: Float = 0f, var y: Float = 0f, var z: Float = 0f) {
 	fun add(x: Float, y: Float, z: Float) =
 		this.apply { this.x += x; this.y += y; this.z += z }
 
-	fun sub(v: PVector) = minus(v)
+	fun sub(v: PVector) = minusAssign(v)
 
 	operator fun minus(v: PVector) =
-		this.apply { x -= v.x; y -= v.y; z -= v.z }
+		PVector( x - v.x, y - v.y, z - v.z)
 
-	fun sub(x: Float, y: Float) =
+	operator fun minusAssign(v: PVector)
+		{ x -= v.x; y -= v.y; z -= v.z }
+
+	fun minus(x: Float, y: Float) =
 		this.apply { this.x -= x; this.y -= y }
 
-	fun sub(x: Float, y: Float, z: Float) =
+	fun minus(x: Float, y: Float, z: Float) =
 		this.apply { this.x -= x; this.y -= y; this.z -= z }
 
-	fun mult(n: Float) = times(n)
+	fun mult(n: Float) = timesAssign(n)
 
 	operator fun times(n: Float) =
-		this.apply { x *= n; y *= n; z *= n }
+		PVector(x * n, y * n, z * n)
+
+	operator fun timesAssign(n: Float)
+		{ x *= n; y *= n; z *= n }
 
 	operator fun div(n: Float) =
-		this.apply { x /= n; y /= n; z /= n }
+		PVector(x / n, y / n, z / n)
+
+	operator fun divAssign(n: Float)
+		{ x /= n; y /= n; z /= n }
 
 	infix fun dist(v: PVector): Float {
 		val dx = x - v.x

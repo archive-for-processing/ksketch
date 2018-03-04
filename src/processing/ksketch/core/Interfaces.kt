@@ -29,13 +29,13 @@ interface IPImage {
 
 	var width: Int
 	var height: Int
-	var format: Int
+	//var format: Int
 
-	var pixels: IntArray?
-	var pixelDensity: Int
+	//var pixels: IntArray?
+	//var pixelDensity: Int
 
-	var pixelWidth: Int
-	var pixelHeight: Int
+	//var pixelWidth: Int
+	//var pixelHeight: Int
 
 }
 
@@ -86,10 +86,15 @@ interface IPGraphicsEnv {
 
 }
 
-interface IPGraphics : IPGraphicsEnv, IPGraphicsContext {
+interface IPGraphics : IPGraphicsEnv, IPGraphicsContext, IPImage {
 
 	var setupFunc: (IPGraphics.() -> Unit)?
 	var drawFunc: IPGraphics.() -> Unit
+
+	val mouseX: Float
+	val mouseY: Float
+	val pmouseX: Float
+	val pmouseY: Float
 
 	//var shader: PShader
 

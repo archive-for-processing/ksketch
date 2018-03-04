@@ -22,6 +22,7 @@ package processing.ksketch.core.fx2d
 
 import javafx.animation.AnimationTimer
 import javafx.application.Application
+import javafx.event.EventHandler
 import javafx.scene.Group
 import javafx.scene.Scene
 import javafx.scene.SceneAntialiasing
@@ -30,9 +31,9 @@ import javafx.stage.Stage
 
 class FXApp : Application() {
 	companion object {
-		// Cannot be an inner class of PGraphicsFX2D (created through reflection)
+		// Cannot be an inner class of FX2D (created through reflection)
 		// but needs to access the outer class
-		internal lateinit var outer: PGraphicsFX2D
+		internal lateinit var outer: FX2D
 		internal lateinit var instance: FXApp
 	}
 
@@ -41,8 +42,8 @@ class FXApp : Application() {
 			instance = this
 
 			val root = Group()
-			val w = outer.w.toDouble()
-			val h = outer.h.toDouble()
+			val w = outer.width.toDouble()
+			val h = outer.height.toDouble()
 			val canvas = Canvas(w, h)
 			outer.gc = canvas.graphicsContext2D
 			root.children.add(canvas)
@@ -55,9 +56,14 @@ class FXApp : Application() {
 			primaryStage.scene = Scene(root, w, h, true, smooth)
 			primaryStage.show()
 
+			root.onMouseClicked = EventHandler { event ->
+				outer._emouseX = event.sceneX.toFloat()
+				outer._emouseY = event.sceneY.toFloat()
+			}
+
 			outer.drawTimer = object : AnimationTimer() {
 				override fun handle(now: Long) {
-					outer.resetMatrix()
+					outer.prepareFrame()
 					outer.drawFunc(outer)
 				}
 			}

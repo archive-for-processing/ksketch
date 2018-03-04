@@ -51,6 +51,12 @@ fun color(s: Float): PColor {
 	return alpha or (comp shl 16) or (comp shl 8) or comp
 }
 
+fun color(s: Float, a: Float): PColor {
+	val alpha = (255 * a).clamp(0f, 255f).roundToInt() shl 24
+	val comp  = (255 * s).clamp(0f, 255f).roundToInt()
+	return alpha or (comp shl 16) or (comp shl 8) or comp
+}
+
 fun color(x: Float, y: Float, z: Float): PColor {
 	val alpha = 0xFF shl 24
 	val red   = (255 * x).clamp(0f, 255f).roundToInt() shl 16

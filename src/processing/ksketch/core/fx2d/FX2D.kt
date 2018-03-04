@@ -38,7 +38,19 @@ import processing.ksketch.core.*
 import kotlin.math.max
 import kotlin.math.min
 
-class PGraphicsFX2D(val w: Int, val h: Int, val smooth: Int = 0) : IPGraphics {
+class FX2D(width: Int, height: Int, val smooth: Int = 0) : IPGraphics {
+
+	override var width: Int = width
+		set(value) {
+			if (resize())
+				field = value
+		}
+
+	override var height: Int = height
+		set(value) {
+			if (resize())
+				field = value
+		}
 
 	companion object {
 		var appLaunched = AtomicBoolean()
@@ -76,6 +88,18 @@ class PGraphicsFX2D(val w: Int, val h: Int, val smooth: Int = 0) : IPGraphics {
 		Platform.exit()
 	}
 
+	// Current mouse
+	internal var _mouseX = 0f;  internal var _mouseY = 0f
+	// Previous mouse
+	internal var _pmouseX = 0f; internal var _pmouseY = 0f
+	// Event mouse
+	internal var _emouseX = 0f; internal var _emouseY = 0f
+
+	override val mouseX  get() = _mouseX
+	override val mouseY  get() = _mouseY
+	override val pmouseX get() = _pmouseX
+	override val pmouseY get() = _pmouseY
+
 	override var doTint = false
 	var tintColor = PColorHelper()
 	override var tint: PColor by tintColor.delegate()
@@ -103,8 +127,7 @@ class PGraphicsFX2D(val w: Int, val h: Int, val smooth: Int = 0) : IPGraphics {
 	}
 	override var strokeWeight = 1f
 		set(value) {
-			if (strokeWeight == 0f)
-				doStroke = false
+			doStroke = strokeWeight != 0f
 			gc.lineWidth = value.toDouble()
 			field = value
 		}
@@ -160,7 +183,8 @@ class PGraphicsFX2D(val w: Int, val h: Int, val smooth: Int = 0) : IPGraphics {
 		gc.save()
 		gc.transform = Affine()
 
-		gc.clearRect(0.0, 0.0, w.toDouble(), h.toDouble())
+		val w = width.toDouble(); val h = height.toDouble()
+		gc.clearRect(0.0, 0.0, w, h)
 
 		gc.restore()
 	}
@@ -171,7 +195,8 @@ class PGraphicsFX2D(val w: Int, val h: Int, val smooth: Int = 0) : IPGraphics {
 
 		fill = background
 		gc.globalBlendMode = BlendMode.SRC_OVER
-		gc.fillRect(0.0, 0.0, w.toDouble(), h.toDouble())
+		val w = width.toDouble(); val h = height.toDouble()
+		gc.fillRect(0.0, 0.0, w, h)
 
 		gc.restore()
 	}
@@ -347,6 +372,16 @@ class PGraphicsFX2D(val w: Int, val h: Int, val smooth: Int = 0) : IPGraphics {
 	override fun screenY(x: Float, y: Float) =
 		gc.transform.transform(x.toDouble(), y.toDouble()).y.toFloat()
 
+	// Private
+
+	internal fun prepareFrame() {
+		resetMatrix()
+		_pmouseX =  _mouseX; _pmouseY =  _mouseY
+		 _mouseX = _emouseX;  _mouseY = _emouseY
+	}
+
+	private fun resize(): Boolean {
+		throw RuntimeException("Resizing not implemented")
+	}
 
 }
-

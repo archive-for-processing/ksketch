@@ -1,13 +1,13 @@
 package processing.ksketch.sample
 
 import processing.ksketch.core.*
-import processing.ksketch.core.fx2d.PGraphicsFX2D
+import processing.ksketch.core.fx2d.FX2D
 import processing.ksketch.core.ksketch
 import kotlin.math.sin
 
 val sketch = ksketch {
 	settings {
-		renderer = PGraphicsFX2D(200, 200)
+		renderer = FX2D(200, 200)
 	}
 
 	var i = 0.0f
