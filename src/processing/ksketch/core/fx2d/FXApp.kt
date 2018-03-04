@@ -54,6 +54,7 @@ class FXApp : Application() {
 			}
 
 			primaryStage.scene = Scene(root, w, h, true, smooth)
+			primaryStage.isResizable = false
 			primaryStage.show()
 
 			root.onMouseClicked = EventHandler { event ->
