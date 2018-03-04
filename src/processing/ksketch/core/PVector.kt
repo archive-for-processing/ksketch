@@ -287,55 +287,26 @@ data class PVector(var x: Float = 0f, var y: Float = 0f, var z: Float = 0f) {
 				else -> acos(amt)
 			}
 		}
+
+		fun random2D(): PVector =
+			random2D(PVector())
+
+		fun random2D(target: PVector): PVector =
+			fromAngle(random(TAU), target)
+
+		fun random3D(): PVector =
+			random3D(PVector())
+
+		fun random3D(target: PVector): PVector =
+			target.apply {
+				val angle = random(TAU)
+				val vz = random(-1f, 1f)
+
+				val vx = sqrt((1 - vz * vz)) * cos(angle)
+				val vy = sqrt((1 - vz * vz)) * sin(angle)
+
+				set(vx, vy, vz)
+			}
 	}
 
 }
-
-/*
-
-class PVector(var x: Float = 0f, var y: Float = 0f, var z: Float = 0f) : Serializable {
-
-	companion object {
-
-		fun random2D(parent: PApplet): PVector {
-			return random2D(null, parent)
-		}
-
-		@JvmOverloads
-		fun random2D(target: PVector? = null, parent: PApplet? = null): PVector {
-			return if (parent == null)
-				fromAngle((Math.random() * Math.PI * 2.0).toFloat(), target)
-			else
-				fromAngle(parent.random(TAU), target)
-		}
-
-		fun random3D(parent: PApplet): PVector {
-			return random3D(null, parent)
-		}
-
-		@JvmOverloads
-		fun random3D(tgt: PVector? = null, parent: PApplet? = null): PVector {
-			var target = tgt
-			val angle: Float
-			val vz: Float
-			if (parent == null) {
-				angle = (Math.random() * Math.PI * 2.0).toFloat()
-				vz = (Math.random() * 2 - 1).toFloat()
-			} else {
-				angle = parent.random(TWO_PI)
-				vz = parent.random(-1, 1)
-			}
-			val vx = (Math.sqrt((1 - vz * vz).toDouble()) * cos(angle.toDouble())).toFloat()
-			val vy = (Math.sqrt((1 - vz * vz).toDouble()) * sin(angle.toDouble())).toFloat()
-			if (target == null) {
-				target = PVector(vx, vy, vz)
-				//target.normalize(); // Should be unnecessary
-			} else {
-				target[vx, vy] = vz
-			}
-			return target
-		}
-
-	}
-}
-*/
