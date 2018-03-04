@@ -5,7 +5,7 @@ import processing.ksketch.core.fx2d.FX2D
 import processing.ksketch.core.ksketch
 import kotlin.math.sin
 
-val sketch = ksketch {
+val sketch get() = ksketch {
 	settings {
 		renderer = FX2D(200, 200)
 	}
@@ -34,4 +34,6 @@ val sketch = ksketch {
 
 fun main(args: Array<String>) {
 	sketch.run()
+
+	println("done")
 }

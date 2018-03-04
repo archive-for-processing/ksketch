@@ -20,9 +20,6 @@
 
 package processing.ksketch.core.fx2d
 
-import javafx.animation.AnimationTimer
-import javafx.application.Application
-import javafx.application.Platform
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.effect.BlendMode
 import javafx.scene.paint.Color
@@ -30,7 +27,6 @@ import javafx.scene.shape.ArcType
 import javafx.scene.shape.StrokeLineCap
 import javafx.scene.shape.StrokeLineJoin
 import javafx.scene.transform.Affine
-import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.properties.Delegates
 import kotlin.math.tan
 import kotlin.math.max
@@ -52,12 +48,8 @@ class FX2D(width: Int, height: Int, val smooth: Int = 0) : IPGraphics {
 				field = value
 		}
 
-	companion object {
-		var appLaunched = AtomicBoolean()
-	}
 
 	internal lateinit var gc: GraphicsContext
-	internal lateinit var drawTimer: AnimationTimer
 	internal lateinit var onStart: () -> Unit
 	internal lateinit var onError: (Exception) -> Unit
 
@@ -66,26 +58,18 @@ class FX2D(width: Int, height: Int, val smooth: Int = 0) : IPGraphics {
 	override var setupFunc: (IPGraphics.() -> Unit)? = null
 	override var drawFunc: IPGraphics.() -> Unit by Delegates.notNull()
 
-	override fun run(s: KSketch, onStart: () -> Unit, onError: (Exception) -> Unit) {
-		if (!appLaunched.getAndSet(true)) {
-			this.onStart = onStart
-			this.onError = onError
-			FXApp.outer = this
-
-			try {
-				Application.launch(FXApp::class.java)
-			} catch (e: Exception) {
-				onError(e)
-			}
-		} else {
-			onError(IllegalStateException("Only one FX2D sketch can run at a time."))
+	override fun start(s: KSketch, onStart: () -> Unit, onError: (Exception) -> Unit) {
+		this.onStart = onStart
+		this.onError = onError
+		try {
+			FXManager.addSketch(s, this)
+		} catch (e: Exception) {
+			onError(e)
 		}
 	}
 
 	override fun stop(s: KSketch) {
-		drawTimer.stop()
-		FXApp.instance.stop()
-		Platform.exit()
+		FXManager.removeSketch(this)
 	}
 
 	// Current mouse

@@ -35,6 +35,8 @@ fun ksketch(func: KSketch.() -> Unit): KSketch = KSketch().apply {
 
 class KSketch internal constructor() {
 
+	private val stopLock = CountDownLatch(1)
+
 	internal var setupArgs: KSketchSetup? = null
 	internal var setup: (IPGraphics.() -> Unit)? = null
 	internal var draw: (IPGraphics.() -> Unit) = {}
@@ -77,7 +79,7 @@ class KSketch internal constructor() {
 		val waitForAction = CountDownLatch(1)
 		var error: Exception? = null
 		thread(start = true, name = "KSketch Renderer Thread") {
-			renderer.run(s = this,
+			renderer.start(s = this,
 				onStart = {
 					// Successfully started
 					waitForAction.countDown()
@@ -94,9 +96,14 @@ class KSketch internal constructor() {
 			throw error!!
 	}
 
+	internal fun onUserQuit() {
+		stopLock.countDown()
+	}
+
 	// Terminates the sketch
 	fun stop() {
 		renderer.stop(this)
+		stopLock.countDown()
 	}
 
 	// Runs the sketch
@@ -105,6 +112,8 @@ class KSketch internal constructor() {
 		if (milliseconds > 0) {
 			Thread.sleep(milliseconds.toLong())
 			stop()
+		} else {
+			stopLock.await()
 		}
 	}
 

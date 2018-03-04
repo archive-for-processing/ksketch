@@ -81,7 +81,9 @@ interface IPGraphicsEnv {
 
 	// Require KSketch to prevent users
 	// from calling lifecycle methods
-	fun run(s: KSketch, onStart: () -> Unit, onError: (Exception) -> Unit)
+
+	// Should set s.onUserQuit()!
+	fun start(s: KSketch, onStart: () -> Unit, onError: (Exception) -> Unit)
 	fun stop(s: KSketch)
 
 }
