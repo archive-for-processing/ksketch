@@ -84,14 +84,6 @@ The following functions are currently unsupported but will be implemented later:
    that references a controller (PApplet))
  * Image utility
 
-#### Why tho?
-
-I started this because all the sacrifices to make Processing nice and clean
-in its IDE make it incredibly painful to use Processing outside its comfort
-zone. It is impossible to use Processing in IntelliJ IDEA for example while
-still maintaining sanity. I saw this as a great opportunity to use Kotlin's
-flexibility.
-
 ### Copyright
 
 The code of this project is based on [Part of the Processing project](http://processing.org).
